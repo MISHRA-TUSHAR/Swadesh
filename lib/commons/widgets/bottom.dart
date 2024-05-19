@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swadesh/constants/global_variables.dart';
+import 'package:swadesh/features/account/screens/account_screen.dart';
+import 'package:swadesh/features/cart/screens/cart_screen.dart';
 import 'package:swadesh/features/home/screens/home_screen.dart';
 import 'package:badges/badges.dart' as badges;
 
@@ -18,6 +20,8 @@ class _BottomBarState extends State<BottomBar> {
 
   List<Widget> pages = [
     const HomeScreen(),
+    const AccountScreen(),
+    const CartScreen(),
   ];
 
   void updatePage(int page) {
@@ -110,6 +114,3 @@ class _BottomBarState extends State<BottomBar> {
     );
   }
 }
-
-
-// 3:35
