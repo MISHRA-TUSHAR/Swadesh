@@ -8,6 +8,7 @@ class Product {
   final String category;
   final double price;
   final String? id;
+
   Product({
     required this.name,
     required this.description,
@@ -19,7 +20,7 @@ class Product {
   });
 
   Map<String, dynamic> toMap() {
-    return {
+    return <String, dynamic>{
       'name': name,
       'description': description,
       'quantity': quantity,
@@ -47,3 +48,4 @@ class Product {
   factory Product.fromJson(String source) =>
       Product.fromMap(json.decode(source));
 }
+

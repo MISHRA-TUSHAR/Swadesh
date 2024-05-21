@@ -1,8 +1,14 @@
 import 'dart:io';
+
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:swadesh/constants/errors.dart';
+import 'package:swadesh/constants/global_variables.dart';
 import 'package:swadesh/constants/utils.dart';
 import 'package:swadesh/models/product.dart';
+import 'package:swadesh/providers/user_provider.dart';
 
 class AdminServices {
   void sellProduct({
@@ -14,6 +20,8 @@ class AdminServices {
     required String category,
     required List<File> images,
   }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
     try {
       final cloudinary = CloudinaryPublic('dypdblusf', "pmfi2yqj");
       List<String> imageUrls = [];
@@ -24,6 +32,7 @@ class AdminServices {
         );
         imageUrls.add(res.secureUrl);
       }
+
       Product product = Product(
         name: name,
         description: description,
@@ -31,6 +40,24 @@ class AdminServices {
         images: imageUrls,
         category: category,
         price: price,
+      );
+
+      http.Response res = await http.post(
+        Uri.parse('$uri/admin/add-product'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+        body: product.toJson(),
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(context, 'Product Added Successfully!');
+          Navigator.pop(context);
+        },
       );
     } catch (e) {
       showSnackBar(context, e.toString());
