@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:swadesh/commons/widgets/bottom.dart';
 import 'package:swadesh/constants/global_variables.dart';
+import 'package:swadesh/features/admin/screens/admin_screen.dart';
 import 'package:swadesh/features/auth/screens/auth_screen.dart';
 import 'package:swadesh/features/auth/services/auth_service.dart';
 import 'package:swadesh/providers/user_provider.dart';
@@ -32,23 +33,24 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Swadesh',
-      theme: ThemeData(
-        scaffoldBackgroundColor: GlobalVariables.backgroundColor,
-        colorScheme: const ColorScheme.light(
-          primary: GlobalVariables.secondaryColor,
-          secondary: GlobalVariables.secondaryColor,
+        title: 'Swadesh',
+        theme: ThemeData(
+          scaffoldBackgroundColor: GlobalVariables.backgroundColor,
+          colorScheme: const ColorScheme.light(
+            primary: GlobalVariables.secondaryColor,
+            secondary: GlobalVariables.secondaryColor,
+          ),
+          appBarTheme: const AppBarTheme(
+            elevation: 0,
+            iconTheme: IconThemeData(color: Colors.black),
+          ),
         ),
-        appBarTheme: const AppBarTheme(
-          elevation: 0,
-          iconTheme: IconThemeData(color: Colors.black),
-        ),
-      ),
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: (settings) => generateRoute(settings),
-      home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-          ? const BottomBar()
-          : const AuthScreen(),
-    );
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: (settings) => generateRoute(settings),
+        home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+            ? Provider.of<UserProvider>(context).user.type == 'user'
+                ? const BottomBar()
+                : const AdminScreen()
+            : const AuthScreen());
   }
 }
