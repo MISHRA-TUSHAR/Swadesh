@@ -5,7 +5,7 @@ import 'package:swadesh/features/account/widgets/orders.dart';
 import 'package:swadesh/features/account/widgets/top_button.dart';
 
 class AccountScreen extends StatelessWidget {
-  const AccountScreen({Key? key}) : super(key: key);
+  const AccountScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class AccountScreen extends StatelessWidget {
               Container(
                 alignment: Alignment.topLeft,
                 child: Image.asset(
-                  'assets/images/amazon_in.png',
+                  'assets/images/swadesh.png',
                   width: 120,
                   height: 45,
                   color: Colors.black,

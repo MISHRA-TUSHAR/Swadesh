@@ -32,9 +32,9 @@ class _AddressScreenState extends State<AddressScreen> {
   final AddressServices addressServices = AddressServices();
 
   final Future<PaymentConfiguration> _applePayConfigFuture =
-      PaymentConfiguration.fromAsset('assets/applepay.json');
+      PaymentConfiguration.fromAsset('applepay.json');
   final Future<PaymentConfiguration> _googlePayConfigFuture =
-      PaymentConfiguration.fromAsset('assets/gpay.json');
+      PaymentConfiguration.fromAsset('gpay.json');
 
   @override
   void initState() {

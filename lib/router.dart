@@ -5,8 +5,10 @@ import 'package:swadesh/features/admin/screens/add_product.dart';
 import 'package:swadesh/features/auth/screens/auth_screen.dart';
 import 'package:swadesh/features/home/screens/category_deal.dart';
 import 'package:swadesh/features/home/screens/home_screen.dart';
+import 'package:swadesh/features/orders/screens/order_detail.dart';
 import 'package:swadesh/features/prod_details/screens/prod_det_scr.dart';
 import 'package:swadesh/features/search/screens/search_screen.dart';
+import 'package:swadesh/models/order.dart';
 import 'package:swadesh/models/product.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
@@ -71,6 +73,14 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         ),
       );
 
+    case OrderDetailScreen.routeName:
+      var order = routeSettings.arguments as Order;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => OrderDetailScreen(
+          order: order,
+        ),
+      );
     default:
       return MaterialPageRoute(
         settings: routeSettings,
