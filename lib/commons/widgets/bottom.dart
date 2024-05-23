@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:swadesh/constants/global_variables.dart';
 import 'package:swadesh/features/account/screens/account_screen.dart';
 import 'package:swadesh/features/cart/screens/cart_screen.dart';
 import 'package:swadesh/features/home/screens/home_screen.dart';
+import 'package:swadesh/providers/user_provider.dart';
 import 'package:badges/badges.dart' as badges;
 
 class BottomBar extends StatefulWidget {
   static const String routeName = '/actual-home';
-  const BottomBar({super.key});
+  const BottomBar({Key? key}) : super(key: key);
 
   @override
   State<BottomBar> createState() => _BottomBarState();
@@ -32,7 +34,7 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    // final userCartLen = context.watch<UserProvider>().user.cart.length;
+    final userCartLen = context.watch<UserProvider>().user.cart.length;
 
     return Scaffold(
       body: pages[_page],
@@ -64,7 +66,6 @@ class _BottomBarState extends State<BottomBar> {
             ),
             label: '',
           ),
-
           // ACCOUNT
           BottomNavigationBarItem(
             icon: Container(
@@ -85,7 +86,6 @@ class _BottomBarState extends State<BottomBar> {
             ),
             label: '',
           ),
-
           // CART
           BottomNavigationBarItem(
             icon: Container(
@@ -100,9 +100,16 @@ class _BottomBarState extends State<BottomBar> {
                   ),
                 ),
               ),
-              child: const badges.Badge(
-                badgeContent: Text('2'),
-                child: Icon(
+              child: badges.Badge(
+                badgeContent: Text(userCartLen.toString()),
+                badgeStyle: badges.BadgeStyle(
+                  shape: badges.BadgeShape.square,
+                  badgeColor: GlobalVariables.selectedNavBarColor,
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: Colors.white, width: 2),
+                  elevation: 0,
+                ),
+                child: const Icon(
                   Icons.shopping_cart_outlined,
                 ),
               ),

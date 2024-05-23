@@ -13,8 +13,6 @@ import 'package:swadesh/models/user.dart';
 import 'package:swadesh/providers/user_provider.dart';
 
 class AuthService {
-  // signup
-
   void signUpUser({
     required BuildContext context,
     required String email,
@@ -30,6 +28,7 @@ class AuthService {
         address: '',
         type: '',
         token: '',
+        cart: [],
       );
 
       http.Response res = await http.post(
@@ -91,7 +90,7 @@ class AuthService {
     }
   }
 
-// get data
+  // get user data
   void getUserData(
     BuildContext context,
   ) async {

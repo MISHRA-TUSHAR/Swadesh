@@ -1,12 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:swadesh/commons/widgets/custom_button.dart';
 import 'package:swadesh/commons/widgets/star.dart';
 import 'package:swadesh/constants/global_variables.dart';
 import 'package:swadesh/features/prod_details/services/prod_det_service.dart';
 import 'package:swadesh/features/search/screens/search_screen.dart';
 import 'package:swadesh/models/product.dart';
+import 'package:swadesh/providers/user_provider.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   static const String routeName = '/product-details';
@@ -26,11 +28,33 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   double avgRating = 0;
   double myRating = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    double totalRating = 0;
+    for (int i = 0; i < widget.product.rating!.length; i++) {
+      totalRating += widget.product.rating![i].rating;
+      if (widget.product.rating![i].userId ==
+          Provider.of<UserProvider>(context, listen: false).user.id) {
+        myRating = widget.product.rating![i].rating;
+      }
+    }
+
+    if (totalRating != 0) {
+      avgRating = totalRating / widget.product.rating!.length;
+    }
+  }
+
   void navigateToSearchScreen(String query) {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
   }
 
-  void addToCart() {}
+  void addToCart() {
+    productDetailsServices.addToCart(
+      context: context,
+      product: widget.product,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -232,11 +256,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 color: GlobalVariables.secondaryColor,
               ),
               onRatingUpdate: (rating) {
-                // productDetailsServices.rateProduct(
-                //   context: context,
-                //   product: widget.product,
-                //   rating: rating,
-                // );
+                productDetailsServices.rateProduct(
+                  context: context,
+                  product: widget.product,
+                  rating: rating,
+                );
               },
             )
           ],

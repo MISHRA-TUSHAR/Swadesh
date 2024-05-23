@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swadesh/commons/widgets/bottom.dart';
+import 'package:swadesh/features/address/screens/address_screen.dart';
 import 'package:swadesh/features/admin/screens/add_product.dart';
 import 'package:swadesh/features/auth/screens/auth_screen.dart';
 import 'package:swadesh/features/home/screens/category_deal.dart';
@@ -58,6 +59,15 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => ProductDetailScreen(
           product: product,
+        ),
+      );
+
+    case AddressScreen.routeName:
+      var totalAmount = routeSettings.arguments as String;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => AddressScreen(
+          totalAmount: totalAmount,
         ),
       );
 

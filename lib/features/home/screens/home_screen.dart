@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:swadesh/constants/global_variables.dart';
 import 'package:swadesh/features/home/widgets/address_box.dart';
 import 'package:swadesh/features/home/widgets/carousel.dart';
-import 'package:swadesh/features/home/widgets/deal.dart';
+import 'package:swadesh/features/home/widgets/deal_of_day.dart';
 import 'package:swadesh/features/home/widgets/top_cat.dart';
 import 'package:swadesh/features/search/screens/search_screen.dart';
 
@@ -102,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
             TopCategories(),
             SizedBox(height: 10),
             CarouselImage(),
-            DealofDay(),
+            DealOfDay(),
           ],
         ),
       ),

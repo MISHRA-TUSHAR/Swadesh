@@ -10,22 +10,22 @@ import 'package:swadesh/models/product.dart';
 import 'package:swadesh/models/user.dart';
 import 'package:swadesh/providers/user_provider.dart';
 
-class ProductDetailsServices {
-  void addToCart({
+class AddressServices {
+  void saveUserAddress({
     required BuildContext context,
-    required Product product,
+    required String address,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     try {
       http.Response res = await http.post(
-        Uri.parse('$uri/api/add-to-cart'),
+        Uri.parse('$uri/api/save-user-address'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'x-auth-token': userProvider.user.token,
         },
         body: jsonEncode({
-          'id': product.id!,
+          'address': address,
         }),
       );
 
@@ -33,8 +33,10 @@ class ProductDetailsServices {
         response: res,
         context: context,
         onSuccess: () {
-          User user =
-              userProvider.user.copyWith(cart: jsonDecode(res.body)['cart']);
+          User user = userProvider.user.copyWith(
+            address: jsonDecode(res.body)['address'],
+          );
+
           userProvider.setUserFromModel(user);
         },
       );
@@ -43,30 +45,67 @@ class ProductDetailsServices {
     }
   }
 
-  void rateProduct({
+  //all the products
+  void placeOrder({
+    required BuildContext context,
+    required String address,
+    required double totalSum,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    try {
+      http.Response res = await http.post(Uri.parse('$uri/api/order'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': userProvider.user.token,
+          },
+          body: jsonEncode({
+            'cart': userProvider.user.cart,
+            'address': address,
+            'totalPrice': totalSum,
+          }));
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(context, 'Your order has been placed!');
+          User user = userProvider.user.copyWith(
+            cart: [],
+          );
+          userProvider.setUserFromModel(user);
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  void deleteProduct({
     required BuildContext context,
     required Product product,
-    required double rating,
+    required VoidCallback onSuccess,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     try {
       http.Response res = await http.post(
-        Uri.parse('$uri/api/rate-product'),
+        Uri.parse('$uri/admin/delete-product'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'x-auth-token': userProvider.user.token,
         },
         body: jsonEncode({
-          'id': product.id!,
-          'rating': rating,
+          'id': product.id,
         }),
       );
 
       httpErrorHandle(
         response: res,
         context: context,
-        onSuccess: () {},
+        onSuccess: () {
+          onSuccess();
+        },
       );
     } catch (e) {
       showSnackBar(context, e.toString());
