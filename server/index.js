@@ -8,7 +8,7 @@ const userRouter = require("./routes/user");
 const PORT = process.env.PORT || 3000;
 const app = express();
 const DB =
-  "mongodb+srv://mishratushar8890:220604@cluster0.31grcgb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+  "DB URL";
 
 // Middleware
 app.use(express.json());
